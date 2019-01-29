@@ -195,7 +195,6 @@ TSN Configurations:
             input = self._get_diff(input)
 
         base_out = self.base_model(input.view((-1, sample_len) + input.size()[-2:]))
-        print('input: ', base_out.size())
         
         if self.dropout > 0:
             base_out = self.new_fc(base_out)
