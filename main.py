@@ -166,8 +166,13 @@ def train(train_loader, model, criterion, optimizer, epoch):
         input_var = torch.autograd.Variable(input)
         target_var = torch.autograd.Variable(target)
 
+
+        subprocess.run(["nvidia-smi"])  #printing gpu info
         # compute output
         output = model(input_var)
+        
+        subprocess.run(["nvidia-smi"])  #printing gpu info
+
         loss = criterion(output, target_var)
 
         # measure accuracy and record loss
