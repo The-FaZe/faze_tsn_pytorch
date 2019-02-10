@@ -14,6 +14,8 @@ from models import TSN
 from transforms import *
 from opts import parser
 
+import subprocess 
+
 best_prec1 = 0
 
 
@@ -122,7 +124,9 @@ def main():
 
         # train for one epoch
         train(train_loader, model, criterion, optimizer, epoch)
-
+        
+        #print(subprocess.run(["nvidia-smi"]))
+        
         # evaluate on validation set
         if (epoch + 1) % args.eval_freq == 0 or epoch == args.epochs - 1:
             prec1 = validate(val_loader, model, criterion, (epoch + 1) * len(train_loader))
@@ -162,8 +166,13 @@ def train(train_loader, model, criterion, optimizer, epoch):
         input_var = torch.autograd.Variable(input)
         target_var = torch.autograd.Variable(target)
 
+
+        #subprocess.run(["nvidia-smi"])  #printing gpu info
         # compute output
         output = model(input_var)
+        
+        #subprocess.run(["nvidia-smi"])  #printing gpu info
+
         loss = criterion(output, target_var)
 
         # measure accuracy and record loss
@@ -198,6 +207,8 @@ def train(train_loader, model, criterion, optimizer, epoch):
                   'Prec@5 {top5.val:.3f} ({top5.avg:.3f})'.format(
                    epoch, i, len(train_loader), batch_time=batch_time,
                    data_time=data_time, loss=losses, top1=top1, top5=top5, lr=optimizer.param_groups[-1]['lr'])))
+            
+      
 
 
 def validate(val_loader, model, criterion, iter, logger=None):
