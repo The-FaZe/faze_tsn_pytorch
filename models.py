@@ -91,7 +91,7 @@ TSN Configurations:
             elif self.modality == 'RGBDiff':
                 self.input_mean = [0.485, 0.456, 0.406] + [0] * 3 * self.new_length
                 self.input_std = self.input_std + [np.mean(self.input_std) * 2] * 3 * self.new_length
-        elif base_model_name == 'BNInception':
+        elif base_model == 'BNInception':
             import net
             self.base_model = net.bn_inception(pretrained = True)
             self.last_layer.last_layer_name = 'last_linear'
